@@ -55,7 +55,7 @@ model File {
 
 model Category {
   id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
 
   Products Products[]
 
