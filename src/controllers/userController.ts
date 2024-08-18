@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
-import { userSchema } from "../schemas/userSchemas";
 import { UserService } from "../services/userServices";
+import { prisma } from "../libs/prisma";
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 const user = new UserService()
 export class UserControllers{
@@ -12,5 +14,32 @@ export class UserControllers{
        }
        const userData = await user.create(data)
        res.status(201).json({userData})
+    }
+    async login(req:Request,res:Response){
+        const data = req.body
+        // res.json({data})
+        try{
+            const userVerify = await prisma.user.findFirst({
+                where: {
+                    email:data.email.toLowerCase()
+                }
+            })
+            if(!userVerify){
+                return res.json({e:'Email not found'})
+            }
+            const verifyPass = await bcrypt.compare(data.password,userVerify.password)
+            if(!verifyPass){
+                return res.json({e:'Wrong password'})
+            }
+            const token = jwt.sign({id: userVerify.id}, process.env.JWT_PASS as string)
+            const loginData = {
+                ...data,
+                token
+            }
+            const userData = await user.login(loginData)
+            res.status(200).json({userData})
+        }catch(e){
+            res.json(e)
+        }
     }
 }
