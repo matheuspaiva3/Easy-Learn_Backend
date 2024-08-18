@@ -42,4 +42,9 @@ export class UserControllers{
             res.json(e)
         }
     }
+    async getUser(req:Request,res:Response){
+        const id = req.body
+        const result = await user.getProfile(id)
+        res.json({result})
+    }
 }
