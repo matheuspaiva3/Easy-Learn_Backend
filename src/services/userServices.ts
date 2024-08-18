@@ -20,19 +20,23 @@ export class UserService {
     }
   }
   async login(data: login) {
-    const user = await prisma.user.findUnique({
-      where: { email: data.email.toLowerCase() },
-      select: {
-        name: true,
-        email: true,
-        cpf: true,
-        phone: true,
-      },
-    });
-    const result = {
-      ...user,
-      token: data.token,
-    };
-    return result;
+    try{
+        const user = await prisma.user.findUnique({
+          where: { email: data.email.toLowerCase() },
+          select: {
+            name: true,
+            email: true,
+            cpf: true,
+            phone: true,
+          },
+        });
+        const result = {
+          ...user,
+          token: data.token,
+        };
+        return result;
+    }catch(e){
+        return e
+    }
   }
 }
