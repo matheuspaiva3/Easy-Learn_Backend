@@ -27,8 +27,6 @@ export class UserService {
         select: {
           name: true,
           email: true,
-          cpf: true,
-          phone: true,
         },
       });
       const result = {
