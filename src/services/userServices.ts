@@ -45,18 +45,18 @@ export class UserService {
     }
     const user = await prisma.user.findUnique({
       where: { id },
-      select:{
-        id:true,
+      select: {
+        id: true,
         name: true,
         email: true,
         cpf: true,
         phone: true,
-        Products: true
-      }
+        Products: true,
+      },
     });
-    if(!user){
-        return null
+    if (!user) {
+      return null;
     }
-    return user
+    return user;
   }
 }
