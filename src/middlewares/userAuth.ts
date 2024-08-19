@@ -17,7 +17,9 @@ export const userAuth = (req: Request, res: Response, next: NextFunction) => {
       token,
       process.env.JWT_PASS as string
     ) as JwtPayload;
-    req.body = id;
+    req.user = {
+      id
+    };
     next();
   } catch (e) {
     return res.status(401).json({ e });

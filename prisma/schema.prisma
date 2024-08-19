@@ -14,15 +14,15 @@ datasource db {
 }
 
 model User {
-  id              Int        @id @default(autoincrement())
-  name            String
-  email           String     @unique
-  password        String
-  cpf             String     @unique
-  phone           String
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
-  Products        Products[]
+  id        Int        @id @default(autoincrement())
+  name      String
+  email     String     @unique
+  password  String
+  cpf       String     @unique
+  phone     String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Products  Products[]
 
   @@map("users")
 }
@@ -36,8 +36,8 @@ model Products {
   categoryId  Int
   category    Category @relation(fields: [categoryId], references: [id])
   image       String
-  UserId      Int      @unique
-  author      User     @relation(fields: [UserId], references: [id])
+  UserId      Int      
+  author      User     @relation(fields: [UserId], references: [id], onDelete: Cascade)
   File        File[]
 
   @@map("products")
@@ -45,10 +45,10 @@ model Products {
 
 model File {
   id        Int      @id @default(autoincrement())
-  filename  String
-  path      String
+  filename  String[]
+  path      String[]
   productId Int      @unique
-  product   Products @relation(fields: [productId], references: [id])
+  product   Products @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@map("files")
 }

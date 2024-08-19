@@ -43,7 +43,7 @@ export class UserControllers{
         }
     }
     async getUser(req:Request,res:Response){
-        const id = req.body
+        const id = req.user
         const result = await user.getProfile(id)
         res.json({result})
     }

@@ -3,10 +3,9 @@ import { category } from "../schemas/categorySchemas";
 
 export class Category {
   async create(data: category) {
-    const name = data;
     try {
       const result = await prisma.category.create({
-        data: name,
+        data: {name : data.name.toLowerCase()}
       });
       return result;
     } catch (e) {

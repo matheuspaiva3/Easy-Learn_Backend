@@ -39,7 +39,7 @@ export class UserService {
     }
   }
   async getProfile(data: JwtPayload) {
-    const id = data;
+    const {id} = data;
     if (typeof id !== "number") {
       return null;
     }
