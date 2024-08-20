@@ -47,7 +47,7 @@ model File {
   id        Int      @id @default(autoincrement())
   filename  String[]
   path      String[]
-  productId Int      @unique
+  productId Int
   product   Products @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@map("files")

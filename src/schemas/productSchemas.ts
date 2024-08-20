@@ -12,7 +12,7 @@ export const productSchema = z
 // export type product = z.infer<typeof productSchema>
 export const productObject = z
   .object({
-    userId: z.number(),
+    sellerId: z.number(),
     categoryId: z.number(),
     body: z.object({
       title: z.string().min(5),
@@ -23,7 +23,9 @@ export const productObject = z
     }),
     imageName: z.string(),
     pdfNames: z.array(z.string()),
+    pdfPaths: z.array(z.string()),
     videoNames: z.array(z.string()),
+    videoPaths: z.array(z.string())
   })
   .strict();
 export type product = z.infer<typeof productObject>;

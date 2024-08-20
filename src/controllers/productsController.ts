@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { uploadTypes } from "../types/type";
-import { productObject, productSchema } from "../schemas/productSchemas";
+import { productObject } from "../schemas/productSchemas";
 import { ProductServices } from "../services/productsServices";
 import { prisma } from "../libs/prisma";
 import sharp from "sharp";
@@ -15,7 +15,9 @@ export class ProductController {
     const files = req.files as uploadTypes;
     const imageName = files.image[0].filename;
     const pdfNames: string[] = [];
+    const pdfPaths: string[] = [];
     const videoNames: string[] = [];
+    const videoPaths: string[] = []
     if (files.image) {
       await sharp(files.image[0].path)
         .resize(null, 300, {
@@ -44,21 +46,24 @@ export class ProductController {
     if (files.pdf && files.pdf.length > 0) {
       files.pdf.forEach((file) => {
         pdfNames.push(file.filename);
+        pdfPaths.push(file.path)
       });
     }
     if (files.video && files.video.length > 0) {
       files.video.forEach((file) => {
         videoNames.push(file.filename);
+        videoPaths.push(file.path)
       });
     }
-
     const product = {
-      userId: id.id,
+      sellerId: id.id,
       categoryId: categoryExists.id,
       body,
       imageName,
       pdfNames,
+      pdfPaths,
       videoNames,
+      videoPaths
     };
     // res.json({product})
     const validate = productObject.safeParse(product);
