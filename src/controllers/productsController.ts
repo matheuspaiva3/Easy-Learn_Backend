@@ -73,4 +73,10 @@ export class ProductController {
     const result = await productService.create(product);
     res.status(201).json({result})
   }
+  async getProduct(req: Request, res: Response){
+    console.log(req.query)
+    const query = req.query
+    const result = await productService.getItem(query)
+    res.json({result})
+  }
 }

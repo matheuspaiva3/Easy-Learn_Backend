@@ -1,5 +1,5 @@
 import { prisma } from "../libs/prisma";
-import { product } from "../schemas/productSchemas";
+import { product, query } from "../schemas/productSchemas";
 
 export class ProductServices {
   async create(data: product) {
@@ -34,5 +34,15 @@ export class ProductServices {
       data: files,
     });
     return product;
+  }
+  async getItem(data:query){
+    console.log(data)
+    const query = data
+    const result = await prisma.products.findMany({
+        where:{
+            title : query.q
+        }
+    })
+    return result
   }
 }

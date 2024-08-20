@@ -29,3 +29,9 @@ export const productObject = z
   })
   .strict();
 export type product = z.infer<typeof productObject>;
+const querySchema = z.object({
+  q: z.string().optional(),
+  page: z.string().optional(),
+  limit: z.string().optional(),
+}).strict();
+export type query = z.infer<typeof querySchema>

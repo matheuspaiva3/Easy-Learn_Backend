@@ -17,3 +17,4 @@ productsRoutes.post(
   upload.fields([{ name: "image" }, { name: "pdf" },{name:"video"}]),validated(productSchema),
   productsController.create
 );
+productsRoutes.get('/item',userAuth,productsController.getProduct)
