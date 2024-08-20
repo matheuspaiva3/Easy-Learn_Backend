@@ -1,12 +1,12 @@
 import { prisma } from "../libs/prisma";
-import { login, user } from "../schemas/userSchemas";
+import { login, seller } from "../schemas/sellerSchemas";
 import bcrypt from "bcrypt";
 import { JwtPayload } from "../types/type";
-export class UserService {
-  async create(data: user) {
+export class SellerService {
+  async create(data: seller) {
     const hashedPassword = await bcrypt.hash(data.password, 10);
     try {
-      const user = await prisma.user.create({
+      const user = await prisma.seller.create({
         data: {
           name: data.name.toLowerCase(),
           email: data.email.toLowerCase(),
@@ -22,7 +22,7 @@ export class UserService {
   }
   async login(data: login) {
     try {
-      const user = await prisma.user.findUnique({
+      const user = await prisma.seller.findUnique({
         where: { email: data.email.toLowerCase() },
         select: {
           name: true,
@@ -43,7 +43,7 @@ export class UserService {
     if (typeof id !== "number") {
       return null;
     }
-    const user = await prisma.user.findUnique({
+    const user = await prisma.seller.findUnique({
       where: { id },
       select: {
         id: true,

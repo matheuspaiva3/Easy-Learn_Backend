@@ -10,7 +10,7 @@ export class ProductServices{
                 description: data.body.description,
                 content: data.body.content,
                 image: data.imageName,
-                UserId: data.userId,
+                sellerId: data.userId,
                 categoryId: data.categoryId,
             }
         })

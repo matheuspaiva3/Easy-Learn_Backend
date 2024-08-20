@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Seller {
   id        Int        @id @default(autoincrement())
   name      String
   email     String     @unique
@@ -24,7 +24,7 @@ model User {
   updatedAt DateTime   @updatedAt
   Products  Products[]
 
-  @@map("users")
+  @@map("sellers")
 }
 
 model Products {
@@ -36,8 +36,8 @@ model Products {
   categoryId  Int
   category    Category @relation(fields: [categoryId], references: [id])
   image       String
-  UserId      Int      
-  author      User     @relation(fields: [UserId], references: [id], onDelete: Cascade)
+  sellerId    Int
+  author      Seller   @relation(fields: [sellerId], references: [id], onDelete: Cascade)
   File        File[]
 
   @@map("products")

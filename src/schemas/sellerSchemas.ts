@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const userSchema = z
+export const sellerSchema = z
   .object({
     name: z.string().min(2).toLowerCase(),
     email: z.string().email().toLowerCase(),
@@ -10,7 +10,7 @@ export const userSchema = z
     phone: z.string().min(11),
   })
   .strict();
-export type user = z.infer<typeof userSchema>;
+export type seller = z.infer<typeof sellerSchema>;
 export const loginSchema = z
   .object({
     email: z.string().email().toLowerCase(),

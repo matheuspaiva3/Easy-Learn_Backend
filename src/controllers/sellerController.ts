@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { UserService } from "../services/userServices";
+import { SellerService } from "../services/sellerServices";
 import { prisma } from "../libs/prisma";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-const user = new UserService()
-export class UserControllers{
+const user = new SellerService()
+export class SellerControllers{
     async create(req:Request, res:Response){
        const data = req.body
        const {confirmPassword, password} = req.body
@@ -19,7 +19,7 @@ export class UserControllers{
         const data = req.body
         // res.json({data})
         try{
-            const userVerify = await prisma.user.findFirst({
+            const userVerify = await prisma.seller.findFirst({
                 where: {
                     email:data.email.toLowerCase()
                 }
