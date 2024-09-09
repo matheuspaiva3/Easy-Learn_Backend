@@ -27,6 +27,20 @@ model Seller {
   @@map("sellers")
 }
 
+model Buyer {
+  id        Int        @id @default(autoincrement())
+  name      String
+  email     String     @unique
+  password  String
+  cpf       String     @unique
+  phone     String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  products  Products[]
+
+  @@map("buyers")
+}
+
 model Products {
   id          Int      @id @default(autoincrement())
   title       String
@@ -39,6 +53,7 @@ model Products {
   sellerId    Int
   author      Seller   @relation(fields: [sellerId], references: [id], onDelete: Cascade)
   File        File[]
+  buyers      Buyer[]
 
   @@map("products")
 }
