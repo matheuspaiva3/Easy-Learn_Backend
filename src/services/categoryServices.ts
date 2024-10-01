@@ -5,7 +5,7 @@ export class Category {
     async create(data: category) {
         try {
             const result = await prisma.category.create({
-                data: { name: data.name.toLowerCase() }
+                data: { name: data.name.toLowerCase() },
             });
 
             return result;

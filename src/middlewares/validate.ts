@@ -12,5 +12,5 @@ export const validated = <T>(schema: ZodSchema<T>): RequestHandler => {
         } else {
             res.json({ CampoInválido: validated.error });
         }
-    }
-}
+    };
+};

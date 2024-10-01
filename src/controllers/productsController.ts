@@ -95,5 +95,5 @@ export class ProductController {
         const result = await productService.getItem(query);
 
         res.json({ result });
-    };
+    }
 }

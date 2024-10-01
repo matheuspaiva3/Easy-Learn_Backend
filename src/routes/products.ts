@@ -18,10 +18,9 @@ productsRoutes.get('/', (req, res) => {
 productsRoutes.get('/item', userAuth, productsController.getProduct);
 
 productsRoutes.post(
-    '/', userAuth,
-    upload.fields([
-        { name: 'image' }, { name: 'pdf' }, { name: 'video' }
-    ]),
+    '/',
+    userAuth,
+    upload.fields([{ name: 'image' }, { name: 'pdf' }, { name: 'video' }]),
     validated(productSchema),
     productsController.create,
 );

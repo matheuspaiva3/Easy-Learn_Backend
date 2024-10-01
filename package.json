@@ -1,42 +1,49 @@
 {
-  "name": "easy-learn_backend",
-  "version": "1.0.0",
-  "description": "Backend de um E-commerce de digital, de pdfs e vídeo-aulas",
-  "main": "server.ts",
-  "scripts": {
-    "dev": "tsx watch src/server.ts",
-    "build": "tsc",
-    "start": "npm run build && node public/js/server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/matheuspaiva3/Easy-Learn_Backend.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/matheuspaiva3/Easy-Learn_Backend/issues"
-  },
-  "homepage": "https://github.com/matheuspaiva3/Easy-Learn_Backend#readme",
-  "dependencies": {
-    "@prisma/client": "^5.18.0",
-    "bcrypt": "^5.1.1",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "helmet": "^7.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "multer": "^1.4.5-lts.1",
-    "sharp": "^0.33.5",
-    "zod": "^3.23.8"
-  },
-  "devDependencies": {
-    "@types/bcrypt": "^5.0.2",
-    "@types/express": "^4.17.21",
-    "@types/jsonwebtoken": "^9.0.6",
-    "@types/multer": "^1.4.11",
-    "@types/node": "^22.4.0",
-    "prisma": "^5.18.0",
-    "tsx": "^4.17.0",
-    "typescript": "^5.5.4"
-  }
+    "name": "easy-learn_backend",
+    "version": "1.0.0",
+    "description": "Backend de um E-commerce de digital, de pdfs e vídeo-aulas",
+    "main": "server.ts",
+    "scripts": {
+        "dev": "tsx watch src/server.ts",
+        "build": "tsc",
+        "start": "npm run build && node public/js/server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/matheuspaiva3/Easy-Learn_Backend.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/matheuspaiva3/Easy-Learn_Backend/issues"
+    },
+    "homepage": "https://github.com/matheuspaiva3/Easy-Learn_Backend#readme",
+    "dependencies": {
+        "@prisma/client": "^5.18.0",
+        "bcrypt": "^5.1.1",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "helmet": "^7.1.0",
+        "jsonwebtoken": "^9.0.2",
+        "multer": "^1.4.5-lts.1",
+        "sharp": "^0.33.5",
+        "zod": "^3.23.8"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.11.1",
+        "@types/bcrypt": "^5.0.2",
+        "@types/express": "^4.17.21",
+        "@types/jsonwebtoken": "^9.0.6",
+        "@types/multer": "^1.4.11",
+        "@types/node": "^22.4.0",
+        "eslint": "^9.11.1",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-prettier": "^5.2.1",
+        "globals": "^15.10.0",
+        "prettier": "3.3.3",
+        "prisma": "^5.18.0",
+        "tsx": "^4.17.0",
+        "typescript": "^5.5.4",
+        "typescript-eslint": "^8.8.0"
+    }
 }

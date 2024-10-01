@@ -1,4 +1,4 @@
-import multer from 'multer'
+import multer from 'multer';
 
 const storageConfig = multer.diskStorage({
     destination(req, file, callback) {
@@ -15,7 +15,7 @@ const storageConfig = multer.diskStorage({
         }
     },
     filename(req, file, callback) {
-        //@ts-ignore
+        //@ts-expect-error
         const auth = req.headers.authorization?.split(' ')[1];
         const image = file.mimetype.split('/')[0] === 'image';
         const pdf = file.mimetype.split('/')[1] === 'pdf';
@@ -41,12 +41,16 @@ export const upload = multer({
     storage: storageConfig,
     fileFilter: (req, file, callback) => {
         const allowed: string[] = [
-            'image/jpg', 'image/jpeg', 'image/png', 'application/pdf', 'video/mp4',
+            'image/jpg',
+            'image/jpeg',
+            'image/png',
+            'application/pdf',
+            'video/mp4',
         ];
 
         req.body.price = Number(req.body.price);
 
         callback(null, allowed.includes(file.mimetype));
         // console.log(allowed);
-    }
+    },
 });
