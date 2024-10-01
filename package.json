@@ -5,7 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "npm run build && node public/js/server.js"
   },
   "repository": {
     "type": "git",

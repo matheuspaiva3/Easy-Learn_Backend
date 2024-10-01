@@ -11,4 +11,7 @@ export const buyerSchema = z
     })
     .strict();
 
+export const updatedBuyerSchema = buyerSchema.partial().strict();
+
 export type buyer = z.infer<typeof buyerSchema>;
+export type updateBuyer = z.infer<typeof updatedBuyerSchema>;
