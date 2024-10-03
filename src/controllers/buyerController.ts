@@ -13,10 +13,16 @@ export class BuyerControllers {
         const { confirmPassword, password } = req.body;
 
         if (password !== confirmPassword) {
-            return res.json({ error: 'Passwords do not match' });
+            return res.status(401).json({ error: 'Passwords do not match' });
         }
 
         const userData = await user.create(data);
+
+        //@ts-expect-error
+        if (userData.name === 'PrismaClientKnownRequestError') {
+            return res.status(401).json({ error: 'Data already exists' });
+        }
+
         res.status(201).json({ userData });
     }
 
@@ -32,13 +38,13 @@ export class BuyerControllers {
             });
 
             if (!userVerify) {
-                return res.json({ e: 'E-mail not found' });
+                return res.status(404).json({ error: 'E-mail not found' });
             }
 
             const verifyPass = await bcrypt.compare(data.password, userVerify.password);
 
             if (!verifyPass) {
-                return res.json({ e: 'Wrong password' });
+                return res.status(401).json({ error: 'Wrong password' });
             }
 
             const token = jwt.sign({ id: userVerify.id }, process.env.JWT_PASS as string);
@@ -50,7 +56,7 @@ export class BuyerControllers {
 
             res.status(200).json({ userData });
         } catch (error) {
-            res.json(error);
+            res.status(500).json(error);
         }
     }
 
@@ -58,7 +64,11 @@ export class BuyerControllers {
         const id = req.user;
         const result = await user.getProfile(id);
 
-        res.json({ result });
+        if (!result) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.status(200).json({ result });
     }
 
     async update(req: Request, res: Response) {
@@ -72,6 +82,21 @@ export class BuyerControllers {
             }
 
             res.status(200).json({ message: 'User updated successfully', updatedUser });
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
+    async delete(req: Request, res: Response) {
+        try {
+            const userId = req.user.id;
+            const deletedUser = await user.delete(userId);
+
+            if (!deletedUser) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+
+            res.status(200).json({ message: 'Account deleted' });
         } catch (error) {
             res.status(500).json(error);
         }

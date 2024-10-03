@@ -11,7 +11,8 @@ const sellerController = new SellerControllers();
 sellerRoutes.get('/me', userAuth, sellerController.getUser);
 
 sellerRoutes.post('/register', validated(sellerSchema), sellerController.create);
-
 sellerRoutes.post('/login', validated(loginSchema), sellerController.login);
 
 sellerRoutes.put('/update', userAuth, validated(updatedSellerSchema), sellerController.update);
+
+sellerRoutes.delete('/delete', userAuth, sellerController.delete);

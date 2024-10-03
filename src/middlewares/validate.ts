@@ -7,10 +7,10 @@ export const validated = <T>(schema: ZodSchema<T>): RequestHandler => {
         const validated = schema.safeParse(data);
 
         if (validated.success) {
-            console.log('Validacao certa');
+            console.log('Request body accepted');
             next();
         } else {
-            res.json({ CampoInválido: validated.error });
+            res.status(400).json({ invalidField: validated.error });
         }
     };
 };

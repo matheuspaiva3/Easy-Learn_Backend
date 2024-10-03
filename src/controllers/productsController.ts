@@ -48,7 +48,7 @@ export class ProductController {
         // console.log(categoryExists?.id);
 
         if (!categoryExists) {
-            return res.json({ error: 'Category not found' });
+            return res.status(200).json({ error: 'Category not found' });
         }
 
         if (files.pdf && files.pdf.length > 0) {
@@ -81,7 +81,7 @@ export class ProductController {
         const validate = productObject.safeParse(product);
 
         if (!validate.success) {
-            return res.json({ error: validate.error });
+            return res.status(200).json({ error: validate.error });
         }
 
         const result = await productService.create(product);
@@ -94,6 +94,6 @@ export class ProductController {
         const query = req.query;
         const result = await productService.getItem(query);
 
-        res.json({ result });
+        res.status(200).json({ result });
     }
 }

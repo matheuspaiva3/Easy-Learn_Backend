@@ -15,3 +15,5 @@ buyerRoutes.post('/register', validated(buyerSchema), buyerController.create);
 buyerRoutes.post('/login', validated(loginSchema), buyerController.login);
 
 buyerRoutes.put('/update', userAuth, validated(updatedBuyerSchema), buyerController.update);
+
+buyerRoutes.delete('/delete', userAuth, buyerController.delete);

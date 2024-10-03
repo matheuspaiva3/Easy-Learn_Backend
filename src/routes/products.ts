@@ -10,7 +10,7 @@ export const productsRoutes = Router();
 const productsController = new ProductController();
 
 productsRoutes.get('/', (req, res) => {
-    res.json({ teste: 'teste' });
+    res.status(200).json({ teste: 'teste' });
 });
 
 // productsRoutes.use(userAuth);

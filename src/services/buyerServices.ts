@@ -95,4 +95,16 @@ export class BuyerService {
             return error;
         }
     }
+
+    async delete(userId: number) {
+        try {
+            const deletedUser = await prisma.buyer.delete({
+                where: { id: userId },
+            });
+
+            return deletedUser;
+        } catch (error) {
+            return error;
+        }
+    }
 }

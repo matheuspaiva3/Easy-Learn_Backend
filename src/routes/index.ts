@@ -12,5 +12,5 @@ routes.use('/category', catRoutes);
 routes.use('/products', productsRoutes);
 
 routes.get('/ping', (req: Request, res: Response) => {
-    res.json({ pong: true });
+    res.status(200).json({ pong: true });
 });
