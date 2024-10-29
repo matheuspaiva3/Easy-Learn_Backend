@@ -13,6 +13,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum OrderStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
 model Seller {
   id        Int        @id @default(autoincrement())
   name      String
@@ -37,23 +43,79 @@ model Buyer {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   products  Products[]
+  carts     Cart[]     // Adicionando relação com Cart
+  orders    Order[]    // Adicionando relação com Order
 
   @@map("buyers")
 }
 
+model Cart {
+  id        String     @id @default(uuid())
+  buyerId   Int        // Usando Int para corresponder ao id do Buyer
+  buyer     Buyer      @relation(fields: [buyerId], references: [id])
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@map("carts")
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  cartId    String
+  cart      Cart     @relation(fields: [cartId], references: [id])
+  productId Int      
+  product   Products @relation(fields: [productId], references: [id])
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("cart_items")
+}
+
+model Order {
+  id        String      @id @default(uuid())
+  buyerId   Int         // Mudado para Int para corresponder ao Buyer
+  buyer     Buyer       @relation(fields: [buyerId], references: [id])
+  items     OrderItem[]
+  total     Float
+  status    OrderStatus @default(PENDING)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id])
+  productId Int      
+  product   Products @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("order_items")
+}
+
 model Products {
-  id          Int      @id @default(autoincrement())
-  title       String
+  id          Int         @id @default(autoincrement())
+  title       String      @unique
   price       Int
   description String
   content     String
   categoryId  Int
-  category    Category @relation(fields: [categoryId], references: [id])
+  category    Category    @relation(fields: [categoryId], references: [id])
   image       String
   sellerId    Int
-  author      Seller   @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  author      Seller      @relation(fields: [sellerId], references: [id], onDelete: Cascade)
   File        File[]
   buyers      Buyer[]
+  // Adicionando as novas relações
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
 
   @@map("products")
 }
