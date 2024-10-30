@@ -43,15 +43,15 @@ model Buyer {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   products  Products[]
-  carts     Cart[]     // Adicionando relação com Cart
-  orders    Order[]    // Adicionando relação com Order
+  carts     Cart[] // Adicionando relação com Cart
+  orders    Order[] // Adicionando relação com Order
 
   @@map("buyers")
 }
 
 model Cart {
   id        String     @id @default(uuid())
-  buyerId   Int        // Usando Int para corresponder ao id do Buyer
+  buyerId   Int // Usando Int para corresponder ao id do Buyer
   buyer     Buyer      @relation(fields: [buyerId], references: [id])
   items     CartItem[]
   createdAt DateTime   @default(now())
@@ -64,7 +64,7 @@ model CartItem {
   id        String   @id @default(uuid())
   cartId    String
   cart      Cart     @relation(fields: [cartId], references: [id])
-  productId Int      
+  productId Int
   product   Products @relation(fields: [productId], references: [id])
   quantity  Int
   createdAt DateTime @default(now())
@@ -75,7 +75,7 @@ model CartItem {
 
 model Order {
   id        String      @id @default(uuid())
-  buyerId   Int         // Mudado para Int para corresponder ao Buyer
+  buyerId   Int // Mudado para Int para corresponder ao Buyer
   buyer     Buyer       @relation(fields: [buyerId], references: [id])
   items     OrderItem[]
   total     Float
@@ -90,7 +90,7 @@ model OrderItem {
   id        String   @id @default(uuid())
   orderId   String
   order     Order    @relation(fields: [orderId], references: [id])
-  productId Int      
+  productId Int
   product   Products @relation(fields: [productId], references: [id])
   quantity  Int
   price     Float
