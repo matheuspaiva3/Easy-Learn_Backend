@@ -10,6 +10,7 @@ import { OrderService } from '../services/orderService';
 const user = new BuyerService();
 const cartService = new CartService();
 const orderService = new OrderService();
+
 export class BuyerControllers {
     async create(req: Request, res: Response) {
         const data = req.body;
@@ -104,76 +105,87 @@ export class BuyerControllers {
             res.status(500).json(error);
         }
     }
+
     async addToCart(req: Request, res: Response) {
         try {
-
             const { productId, quantity } = req.body;
-            const {id} = req.user
+            const { id } = req.user;
             const cartItem = await cartService.addToCart(id, productId, quantity);
-            console.log("oi")
-          return res.json(cartItem);
-        } catch (error) {
-          return res.status(400).json({ error: "error" });
-        }
-      }
-    
-      async getCart(req: Request, res: Response) {
-        try {
-          const { buyerId } = req.params;
-          const cart = await cartService.getCart(Number(buyerId));
-          return res.json(cart);
-        } catch (error) {
-          return res.status(400).json({ error: "error" });
-        }
-      }
-    
-      async checkout(req: Request, res: Response) {
-        try {
-          const { buyerId } = req.body;
-          const order = await orderService.createOrder(Number(buyerId));
-          return res.json(order);
-        } catch (error) {
-          return res.status(400).json({ error: "error" });
-        }
-      }
-    
-      async getOrders(req: Request, res: Response) {
-        try {
-          const { buyerId } = req.params;
-          const orders = await orderService.getOrders(Number(buyerId));
-          return res.json(orders);
-        } catch (error) {
-          return res.status(400).json({ error: "error" });
-        }
-      }
-    
-      async updateCartItem(req: Request, res: Response) {
-        try {
-          const { cartItemId } = req.params;
-          const { quantity } = req.body;
-          const cartItem = await cartService.updateCartItemQuantity(cartItemId, quantity);
-          return res.json(cartItem);
-        } catch (error) {
-          return res.status(400).json({ error: "error" });
-        }
-      }
 
-      async removeCartItem(req: Request, res: Response) {
-        try {
-          const { cartItemId } = req.params;
-          await cartService.removeFromCart(cartItemId);
-          return res.json({ message: 'Item removido do carrinho' });
+            console.log('oi');
+
+            return res.status(200).json(cartItem);
         } catch (error) {
-          return res.status(400).json({ error: "error" });
+            return res.status(400).json({ error: error });
         }
-      }
-      async clearCart(req: Request, res: Response) {
+    }
+
+    async getCart(req: Request, res: Response) {
         try {
-          const { cartId } = req.params;
-          await cartService.clearCart(cartId);
-          return res.json({ message: 'Carrinho vazio' });
+            const { buyerId } = req.params;
+            const cart = await cartService.getCart(Number(buyerId));
+
+            return res.status(200).json(cart);
         } catch (error) {
-          return res.status(400).json({ error: "error" });
+            return res.status(400).json({ error: error });
         }
-      }
+    }
+
+    async checkout(req: Request, res: Response) {
+        try {
+            const { buyerId } = req.body;
+            const order = await orderService.createOrder(Number(buyerId));
+
+            return res.status(200).json(order);
+        } catch (error) {
+            return res.status(400).json({ error: error });
+        }
+    }
+
+    async getOrders(req: Request, res: Response) {
+        try {
+            const { buyerId } = req.params;
+            const orders = await orderService.getOrders(Number(buyerId));
+
+            return res.status(200).json(orders);
+        } catch (error) {
+            return res.status(400).json({ error: error });
+        }
+    }
+
+    async updateCartItem(req: Request, res: Response) {
+        try {
+            const { cartItemId } = req.params;
+            const { quantity } = req.body;
+            const cartItem = await cartService.updateCartItemQuantity(cartItemId, quantity);
+
+            return res.status(200).json(cartItem);
+        } catch (error) {
+            return res.status(400).json({ error: error });
+        }
+    }
+
+    async removeCartItem(req: Request, res: Response) {
+        try {
+            const { cartItemId } = req.params;
+
+            await cartService.removeFromCart(cartItemId);
+
+            return res.status(200).json({ message: 'Item removido do carrinho' });
+        } catch (error) {
+            return res.status(400).json({ error: error });
+        }
+    }
+
+    async clearCart(req: Request, res: Response) {
+        try {
+            const { cartId } = req.params;
+
+            await cartService.clearCart(cartId);
+
+            return res.status(200).json({ message: 'Carrinho vazio' });
+        } catch (error) {
+            return res.status(400).json({ error: error });
+        }
+    }
 }

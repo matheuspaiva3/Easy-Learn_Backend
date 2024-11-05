@@ -17,12 +17,11 @@ buyerRoutes.put('/update', userAuth, validated(updatedBuyerSchema), buyerControl
 buyerRoutes.delete('/delete', userAuth, buyerController.delete);
 
 // Rotas do carrinho
-buyerRoutes.post('/cart/add', userAuth,buyerController.addToCart);
+buyerRoutes.post('/cart/add', userAuth, buyerController.addToCart);
 buyerRoutes.get('/cart/:buyerId', buyerController.getCart);
 buyerRoutes.put('/cart/item/:cartItemId', buyerController.updateCartItem);
 buyerRoutes.delete('/cart/item/:cartItemId', buyerController.removeCartItem);
 buyerRoutes.delete('/cart/:cartId', buyerController.clearCart);
-
 
 // Rotas de pedidos
 buyerRoutes.post('/checkout', buyerController.checkout);
