@@ -1,5 +1,5 @@
 import { prisma } from '../libs/prisma';
-import { product, query } from '../schemas/productSchemas';
+import { product } from '../schemas/productSchemas';
 
 export class ProductServices {
     async create(data: product) {
@@ -41,17 +41,23 @@ export class ProductServices {
 
         return product;
     }
-    async getItem(data: query) {
-        console.log(data);
 
-        const query = data;
-
-        const result = await prisma.products.findMany({
-            where: {
-                title: query.q,
+    async listProducts({ category }: { category?: string }) {
+        const products = await prisma.products.findMany({
+            where: category
+                ? {
+                      category: {
+                          name: {
+                              equals: category.toLowerCase(),
+                          },
+                      },
+                  }
+                : {},
+            include: {
+                category: true,
             },
         });
 
-        return result;
+        return products;
     }
 }

@@ -85,15 +85,23 @@ export class ProductController {
         }
 
         const result = await productService.create(product);
+
         res.status(201).json({ result });
     }
 
-    async getProduct(req: Request, res: Response) {
-        console.log(req.query);
+    async listProducts(req: Request, res: Response) {
+        try {
+            const { category } = req.body;
 
-        const query = req.query;
-        const result = await productService.getItem(query);
+            const result = await productService.listProducts({ category });
 
-        res.status(200).json({ result });
+            if (result.length === 0) {
+                return res.status(404).json({ message: 'No products found' });
+            }
+
+            return res.status(200).json({ products: result });
+        } catch (error) {
+            return res.status(500).json(error);
+        }
     }
 }

@@ -4,6 +4,7 @@
     "description": "Backend de um E-commerce de digital, de pdfs e vídeo-aulas",
     "main": "server.ts",
     "scripts": {
+        "prettier": "npx prettier . --write",
         "dev": "tsx watch src/server.ts",
         "build": "tsc",
         "start": "npm run build && node public/js/server.js"
