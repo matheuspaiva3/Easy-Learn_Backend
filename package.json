@@ -20,7 +20,7 @@
     },
     "homepage": "https://github.com/matheuspaiva3/Easy-Learn_Backend#readme",
     "dependencies": {
-        "@prisma/client": "^5.18.0",
+        "@prisma/client": "^5.22.0",
         "@types/cors": "^2.8.17",
         "bcrypt": "^5.1.1",
         "cors": "^2.8.5",
@@ -44,7 +44,7 @@
         "eslint-plugin-prettier": "^5.2.1",
         "globals": "^15.10.0",
         "prettier": "3.3.3",
-        "prisma": "^5.18.0",
+        "prisma": "^5.22.0",
         "tsx": "^4.17.0",
         "typescript": "^5.5.4",
         "typescript-eslint": "^8.8.0"
