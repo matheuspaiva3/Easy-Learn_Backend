@@ -7,4 +7,4 @@ export const catRoutes = Router();
 
 const categoryController = new CategoryController();
 
-catRoutes.get('/create', validated(categorySchema), categoryController.create);
+catRoutes.post('/create', validated(categorySchema), categoryController.create);
