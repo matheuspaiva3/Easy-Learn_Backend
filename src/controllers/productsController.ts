@@ -118,34 +118,36 @@ export class ProductController {
             const existingProduct = await prisma.products.findFirst({
                 where: {
                     id: productId,
-                    sellerId: userId
-                }
+                    sellerId: userId,
+                },
             });
 
             if (!existingProduct) {
-                return res.status(404).json({ error: 'Produto não encontrado ou não pertence ao vendedor' });
+                return res
+                    .status(404)
+                    .json({ error: 'Produto não encontrado ou não pertence ao vendedor' });
             }
 
             // Atualizar o produto
             const updatedProduct = await prisma.products.update({
                 where: {
-                    id: productId
+                    id: productId,
                 },
                 data: {
                     title: updateData.title,
                     description: updateData.description,
                     price: updateData.price,
-                    content: updateData.content
+                    content: updateData.content,
                 },
                 include: {
                     category: true,
                     author: {
                         select: {
                             name: true,
-                            email: true
-                        }
-                    }
-                }
+                            email: true,
+                        },
+                    },
+                },
             });
 
             res.json(updatedProduct);
@@ -163,17 +165,17 @@ export class ProductController {
             const product = await prisma.products.findFirst({
                 where: {
                     id: productId,
-                    sellerId: userId
+                    sellerId: userId,
                 },
                 include: {
                     category: true,
                     author: {
                         select: {
                             name: true,
-                            email: true
-                        }
-                    }
-                }
+                            email: true,
+                        },
+                    },
+                },
             });
 
             if (!product) {
