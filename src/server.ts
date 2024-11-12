@@ -11,7 +11,13 @@ dotenv.config();
 
 const server = express();
 
-server.use(cors());
+server.use(cors({
+        origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+        credentials: true
+    }),
+);
 server.use(helmet());
 server.use(express.json());
 server.use(express.static(path.join(__dirname, '../public')));

@@ -12,6 +12,9 @@ sharp.cache(false);
 const productService = new ProductServices();
 
 export class ProductController {
+    update(arg0: number, updateData: any) {
+        throw new Error('Method not implemented.');
+    }
     async create(req: Request, res: Response) {
         const body = await req.body;
         const id = await req.user;
@@ -102,6 +105,85 @@ export class ProductController {
             return res.status(200).json({ products: result });
         } catch (error) {
             return res.status(500).json(error);
+        }
+    }
+
+    async update(req: Request, res: Response) {
+        try {
+            const productId = parseInt(req.params.id);
+            const userId = req.user.id; // ID do vendedor autenticado
+            const updateData = req.body;
+
+            // Primeiro, verificar se o produto existe e pertence ao vendedor
+            const existingProduct = await prisma.products.findFirst({
+                where: {
+                    id: productId,
+                    sellerId: userId
+                }
+            });
+
+            if (!existingProduct) {
+                return res.status(404).json({ error: 'Produto não encontrado ou não pertence ao vendedor' });
+            }
+
+            // Atualizar o produto
+            const updatedProduct = await prisma.products.update({
+                where: {
+                    id: productId
+                },
+                data: {
+                    title: updateData.title,
+                    description: updateData.description,
+                    price: updateData.price,
+                    content: updateData.content
+                },
+                include: {
+                    category: true,
+                    author: {
+                        select: {
+                            name: true,
+                            email: true
+                        }
+                    }
+                }
+            });
+
+            res.json(updatedProduct);
+        } catch (error) {
+            console.error('Error updating product:', error);
+            res.status(500).json({ error: 'Erro ao atualizar produto' });
+        }
+    }
+
+    async getProduct(req: Request, res: Response) {
+        try {
+            const productId = parseInt(req.params.id);
+            const userId = req.user.id;
+
+            const product = await prisma.products.findFirst({
+                where: {
+                    id: productId,
+                    sellerId: userId
+                },
+                include: {
+                    category: true,
+                    author: {
+                        select: {
+                            name: true,
+                            email: true
+                        }
+                    }
+                }
+            });
+
+            if (!product) {
+                return res.status(404).json({ error: 'Produto não encontrado' });
+            }
+
+            res.json(product);
+        } catch (error) {
+            console.error('Error fetching product:', error);
+            res.status(500).json({ error: 'Erro ao buscar produto' });
         }
     }
 }
