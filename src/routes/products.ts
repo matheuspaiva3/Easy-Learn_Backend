@@ -25,9 +25,7 @@ productsRoutes.post(
 
 productsRoutes.put('/item/:id', userAuth, async (req, res) => {
     try {
-        const { id } = req.params;
-        const updateData = req.body;
-        const updatedProduct = await productsController.update(parseInt(id), updateData);
+        const updatedProduct = await productsController.update(req, res);
         res.json(updatedProduct);
     } catch (error) {
         console.error('Error updating product:', error);

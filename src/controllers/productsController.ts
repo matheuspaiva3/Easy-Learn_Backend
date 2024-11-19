@@ -12,9 +12,6 @@ sharp.cache(false);
 const productService = new ProductServices();
 
 export class ProductController {
-    update(arg0: number, updateData: any) {
-        throw new Error('Method not implemented.');
-    }
     async create(req: Request, res: Response) {
         const body = await req.body;
         const id = await req.user;

@@ -13,7 +13,7 @@ const server = express();
 
 server.use(
     cors({
-        origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+        origin: process.env.FRONTEND_URL || 'http://localhost:3001',
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
         credentials: true,
@@ -25,6 +25,10 @@ server.use(express.static(path.join(__dirname, '../public')));
 server.use(routes);
 server.use(notFoundRequest);
 server.use(internalErrorRequest);
+server.use('/images', express.static(path.resolve(__dirname, '..', 'public', 'images')));
+server.use('/public/images', express.static(path.resolve(__dirname, '..', 'public', 'images')));
+server.use('/files', express.static(path.resolve(__dirname, '..', 'public', 'files')));
+server.use('/public/files', express.static(path.join(__dirname, '../public/files')));
 
 const PORT = process.env.PORT;
 
