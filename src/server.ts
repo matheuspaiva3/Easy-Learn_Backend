@@ -19,16 +19,13 @@ server.use(
         credentials: true,
     }),
 );
-server.use(helmet());
+server.use(helmet({ crossOriginResourcePolicy: { policy: 'same-site' } }));
 server.use(express.json());
 server.use(express.static(path.join(__dirname, '../public')));
 server.use(routes);
 server.use(notFoundRequest);
 server.use(internalErrorRequest);
 server.use('/images', express.static(path.resolve(__dirname, '..', 'public', 'images')));
-server.use('/public/images', express.static(path.resolve(__dirname, '..', 'public', 'images')));
-server.use('/files', express.static(path.resolve(__dirname, '..', 'public', 'files')));
-server.use('/public/files', express.static(path.join(__dirname, '../public/files')));
 
 const PORT = process.env.PORT;
 
