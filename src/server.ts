@@ -26,6 +26,7 @@ server.use(routes);
 server.use(notFoundRequest);
 server.use(internalErrorRequest);
 server.use('/images', express.static(path.resolve(__dirname, '..', 'public', 'images')));
+server.use('/public/images', express.static(path.resolve(__dirname, '..', 'public', 'images')));
 
 const PORT = process.env.PORT;
 
