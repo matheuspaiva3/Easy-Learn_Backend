@@ -138,6 +138,7 @@ export class ProductController {
                 },
                 include: {
                     category: true,
+                    File: true,
                     author: {
                         select: {
                             name: true,
@@ -164,6 +165,7 @@ export class ProductController {
                 },
                 include: {
                     category: true,
+                    File: true,
                     author: {
                         select: {
                             name: true,

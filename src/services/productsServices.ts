@@ -55,6 +55,7 @@ export class ProductServices {
                 : {},
             include: {
                 category: true,
+                File: true,
             },
         });
 

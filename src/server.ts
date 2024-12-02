@@ -27,6 +27,10 @@ server.use(notFoundRequest);
 server.use(internalErrorRequest);
 server.use('/images', express.static(path.resolve(__dirname, '..', 'public', 'images')));
 server.use('/public/images', express.static(path.resolve(__dirname, '..', 'public', 'images')));
+server.use('/pdfs', express.static(path.resolve(__dirname, '..', 'public', 'pdfs')));
+server.use('/public/pdfs', express.static(path.resolve(__dirname, '..', 'public', 'pdfs')));
+server.use('/videos', express.static(path.resolve(__dirname, '..', 'public', 'videos')));
+server.use('/public/videos', express.static(path.resolve(__dirname, '..', 'public', 'videos')));
 
 const PORT = process.env.PORT;
 
