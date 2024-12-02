@@ -157,12 +157,10 @@ export class ProductController {
     async getProduct(req: Request, res: Response) {
         try {
             const productId = parseInt(req.params.id);
-            const userId = req.user.id;
 
             const product = await prisma.products.findFirst({
                 where: {
                     id: productId,
-                    sellerId: userId,
                 },
                 include: {
                     category: true,
