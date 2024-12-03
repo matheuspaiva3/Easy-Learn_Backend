@@ -65,7 +65,16 @@ export class OrderService {
                 include: {
                     items: {
                         include: {
-                            product: true,
+                            product: {
+                                include: {
+                                    category: true,
+                                    author: {
+                                        select: {
+                                            name: true,
+                                        },
+                                    },
+                                },
+                            },
                         },
                     },
                 },

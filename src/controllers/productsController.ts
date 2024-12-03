@@ -179,6 +179,10 @@ export class ProductController {
                 return res.status(404).json({ error: 'Produto não encontrado' });
             }
 
+            for (const file of product.File) {
+                file.path[0] = file.path[0].replace('public\\', '');
+            }
+
             res.json(product);
         } catch (error) {
             console.error('Error fetching product:', error);

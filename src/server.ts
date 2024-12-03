@@ -19,7 +19,18 @@ server.use(
         credentials: true,
     }),
 );
-server.use(helmet({ crossOriginResourcePolicy: { policy: 'same-site' } }));
+
+server.use(
+    helmet({
+        contentSecurityPolicy: {
+            directives: {
+                frameAncestors: ['*'],
+            },
+        },
+        crossOriginResourcePolicy: { policy: 'same-site' },
+    }),
+);
+
 server.use(express.json());
 server.use(express.static(path.join(__dirname, '../public')));
 server.use(routes);

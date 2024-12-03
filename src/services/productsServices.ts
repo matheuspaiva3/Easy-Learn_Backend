@@ -56,6 +56,12 @@ export class ProductServices {
             include: {
                 category: true,
                 File: true,
+                author: {
+                    select: {
+                        name: true,
+                        email: true,
+                    },
+                },
             },
         });
 
