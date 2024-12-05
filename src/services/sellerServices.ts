@@ -107,4 +107,79 @@ export class SellerService {
             return error;
         }
     }
+
+    async getSalesForLast7Days(sellerId: number) {
+        try {
+            const today = new Date();
+            today.setUTCHours(0, 0, 0, 0);
+
+            const sevenDaysAgo = new Date(today);
+            sevenDaysAgo.setDate(today.getDate() - 7);
+            sevenDaysAgo.setUTCHours(0, 0, 0, 0);
+
+            const sales = await prisma.order.findMany({
+                where: {
+                    items: { some: { product: { sellerId } } },
+                    createdAt: { gte: sevenDaysAgo, lte: today },
+                    status: 'PAID',
+                },
+            });
+
+            const dailySales = [];
+
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() - i);
+
+                const daySales = sales.filter((order) => {
+                    const orderDate = new Date(order.createdAt);
+                    return orderDate.toDateString() === date.toDateString();
+                });
+
+                const totalSales = daySales.reduce((sum, order) => sum + (order.total || 0), 0);
+
+                dailySales.push({
+                    date: date.toISOString().split('T')[0],
+                    sales: totalSales,
+                });
+            }
+
+            return dailySales;
+        } catch (error) {
+            return error;
+        }
+    }
+
+    async getDashboardSummary(sellerId: number) {
+        try {
+            const available = await prisma.order.aggregate({
+                _sum: { total: true },
+                where: {
+                    items: { some: { product: { sellerId } } },
+                    status: 'PAID',
+                },
+            });
+
+            const pending = await prisma.order.aggregate({
+                _sum: { total: true },
+                where: {
+                    items: { some: { product: { sellerId } } },
+                    status: 'PENDING',
+                },
+            });
+
+            const reserved = 0;
+            const totalAvailable = available._sum.total || 0;
+            const totalPending = pending._sum.total || 0;
+
+            return {
+                available: totalAvailable,
+                pending: totalPending,
+                reserved,
+                total: totalAvailable + totalPending,
+            };
+        } catch (error) {
+            return error;
+        }
+    }
 }

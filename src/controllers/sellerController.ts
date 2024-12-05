@@ -101,4 +101,93 @@ export class SellerControllers {
             res.status(500).json(error);
         }
     }
+
+    async getDashboardSummary(req: Request, res: Response) {
+        try {
+            if (!req.user || !req.user.id) {
+                return res.status(401).json({ error: 'Unauthorized access' });
+            }
+
+            const sellerId = req.user.id;
+            const summary = await user.getDashboardSummary(sellerId);
+
+            res.status(200).json(summary);
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
+    async getSalesForLast7Days(req: Request, res: Response) {
+        try {
+            if (!req.user || !req.user.id) {
+                return res.status(401).json({ error: 'Unauthorized access' });
+            }
+
+            const sellerId = req.user.id;
+            const salesData = await user.getSalesForLast7Days(sellerId);
+
+            res.status(200).json({ dailySales: salesData });
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
+    async getChartData(req: Request, res: Response) {
+        try {
+            const sellerId = req.user.id;
+
+            const data = await prisma.order.groupBy({
+                by: ['createdAt'],
+                _sum: { total: true },
+                where: {
+                    items: { some: { product: { sellerId } } },
+                    status: 'PAID',
+                },
+                orderBy: { createdAt: 'asc' },
+            });
+
+            const chartData = data.map((item) => ({
+                date: item.createdAt.toISOString().split('T')[0],
+                total: item._sum.total || 0,
+            }));
+
+            res.status(200).json(chartData);
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
+    async getExtract(req: Request, res: Response) {
+        try {
+            const sellerId = req.user.id;
+
+            const extract = await prisma.order.findMany({
+                where: {
+                    items: { some: { product: { sellerId } } },
+                },
+                include: {
+                    items: {
+                        include: { product: true },
+                    },
+                },
+                orderBy: { createdAt: 'desc' },
+            });
+
+            const formattedExtract = extract.map((order) => ({
+                id: order.id,
+                total: order.total,
+                status: order.status,
+                createdAt: order.createdAt,
+                products: order.items.map((item) => ({
+                    title: item.product.title,
+                    quantity: item.quantity,
+                    price: item.price,
+                })),
+            }));
+
+            res.status(200).json(formattedExtract);
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
 }

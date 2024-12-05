@@ -16,3 +16,8 @@ sellerRoutes.post('/login', validated(loginSchema), sellerController.login);
 sellerRoutes.put('/update', userAuth, validated(updatedSellerSchema), sellerController.update);
 
 sellerRoutes.delete('/delete', userAuth, sellerController.delete);
+
+sellerRoutes.get('/dashboard/extract', userAuth, sellerController.getExtract);
+sellerRoutes.get('/dashboard/chart-data', userAuth, sellerController.getChartData);
+sellerRoutes.get('/dashboard/sales', userAuth, sellerController.getSalesForLast7Days);
+sellerRoutes.get('/dashboard/summary', userAuth, sellerController.getDashboardSummary);
