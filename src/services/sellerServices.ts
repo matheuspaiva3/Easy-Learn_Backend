@@ -114,7 +114,7 @@ export class SellerService {
             today.setUTCHours(0, 0, 0, 0);
 
             const sevenDaysAgo = new Date(today);
-            sevenDaysAgo.setDate(today.getDate() - 7);
+            sevenDaysAgo.setDate(today.getDate() - 6);
             sevenDaysAgo.setUTCHours(0, 0, 0, 0);
 
             const sales = await prisma.order.findMany({
@@ -125,26 +125,29 @@ export class SellerService {
                 },
             });
 
-            const dailySales = [];
+            const dailySales = Array(7)
+                .fill(null)
+                .map((_, i) => {
+                    const date = new Date(today);
+                    date.setDate(today.getDate() - i);
 
-            for (let i = 0; i < 7; i++) {
-                const date = new Date(today);
-                date.setDate(today.getDate() - i);
+                    const totalSales = sales
+                        .filter((order) => {
+                            const orderDate = new Date(order.createdAt);
+                            return (
+                                orderDate.toISOString().split('T')[0] ===
+                                date.toISOString().split('T')[0]
+                            );
+                        })
+                        .reduce((sum, order) => sum + (order.total || 0), 0);
 
-                const daySales = sales.filter((order) => {
-                    const orderDate = new Date(order.createdAt);
-                    return orderDate.toDateString() === date.toDateString();
+                    return {
+                        date: date.toISOString().split('T')[0],
+                        sales: totalSales,
+                    };
                 });
 
-                const totalSales = daySales.reduce((sum, order) => sum + (order.total || 0), 0);
-
-                dailySales.push({
-                    date: date.toISOString().split('T')[0],
-                    sales: totalSales,
-                });
-            }
-
-            return dailySales;
+            return dailySales.reverse();
         } catch (error) {
             return error;
         }
